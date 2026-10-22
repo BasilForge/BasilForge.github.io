@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import { t } from '../i18n/ui';
+
+const en = t('en');
+const ar = t('ar');
+---
+
+<Base lang="en" title="Not found · BasilForge" description={en['home.description']} path="/404.html" altHref="/ar/">
+  <section class="container section lost">
+    <p class="code">404</p>
+    <h1>{en['notFound.title']}</h1>
+    <p class="ar" lang="ar" dir="rtl">{ar['notFound.title']}</p>
+    <p class="links">
+      <a class="btn btn-primary" href="/">{en['notFound.back']}</a>
+      <a class="btn btn-ghost" href="/ar/" lang="ar">{ar['notFound.back']}</a>
+    </p>
+  </section>
+</Base>
+
+<style>
+  .lost {
+    min-height: 60vh;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .code {
+    font-size: clamp(64px, 14vw, 120px);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .ar {
+    font-family: var(--font-arabic);
+    font-size: 20px;
+    color: var(--muted);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 12px;
+  }
+</style>

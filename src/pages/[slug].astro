@@ -1,0 +1,14 @@
+---
+import ProjectPage from '../components/ProjectPage.astro';
+import { projects, type Project } from '../projects';
+import { kairosStatsForBuild } from '../lib/github';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props as { project: Project };
+const stats = await kairosStatsForBuild();
+---
+
+<ProjectPage project={project} stats={stats} lang="en" />

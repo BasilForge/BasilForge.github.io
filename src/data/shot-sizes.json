@@ -1,0 +1,38 @@
+{
+  "kairos/camera": [
+    1600,
+    776
+  ],
+  "kairos/cloud": [
+    1600,
+    572
+  ],
+  "kairos/editor": [
+    1600,
+    1018
+  ],
+  "kairos/library": [
+    1600,
+    1018
+  ],
+  "kairos/mixer": [
+    1600,
+    1310
+  ],
+  "kairos/quality": [
+    1600,
+    602
+  ],
+  "kairos/share": [
+    1600,
+    1018
+  ],
+  "kairos/smart-save": [
+    1600,
+    872
+  ],
+  "kairos/status": [
+    1600,
+    1018
+  ]
+}

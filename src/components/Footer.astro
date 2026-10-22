@@ -1,0 +1,56 @@
+---
+import Mark from './Mark.astro';
+import { t, type Lang } from '../i18n/ui';
+import { DISCORD_URL, GITHUB_PROFILE_URL } from '../lib/links';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const s = t(lang);
+---
+
+<footer class="site-footer">
+  <div class="container row">
+    <p class="brand"><Mark size={22} /><span>BasilForge</span><span class="muted">· {s['footer.rights']}</span></p>
+    <p class="links">
+      <a href={GITHUB_PROFILE_URL}>GitHub</a>
+      <a href={DISCORD_URL}>Discord</a>
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    padding-block: 28px 36px;
+    font-size: 15px;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+  }
+
+  .brand {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+  }
+
+
+  .brand .muted {
+    font-weight: 400;
+  }
+
+  .links {
+    display: flex;
+    gap: 18px;
+  }
+</style>

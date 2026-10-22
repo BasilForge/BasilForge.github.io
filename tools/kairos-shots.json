@@ -1,0 +1,11 @@
+[
+  { "name": "status", "page": "status-latest", "state": "recording" },
+  { "name": "smart-save", "page": "voice", "state": "testing", "crop": { "y": 0, "h": 900 } },
+  { "name": "mixer", "page": "audio", "state": "separate-full", "crop": { "y": 0, "h": 1350 } },
+  { "name": "camera", "page": "capture", "state": "camera", "crop": { "y": 500, "h": 800 } },
+  { "name": "quality", "page": "quality", "state": "auto", "crop": { "y": 0, "h": 620 } },
+  { "name": "editor", "page": "editor", "clip": "VALORANT 2026-10-18 16-41-27.mp4" },
+  { "name": "share", "page": "share-copysizes" },
+  { "name": "cloud", "page": "general", "state": "cloud", "crop": { "y": 0, "h": 590 } },
+  { "name": "library", "page": "clips-pictures" }
+]

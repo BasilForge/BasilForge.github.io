@@ -1,0 +1,13 @@
+---
+/** BasilForge's mark: a B drawn in two strokes on a rose tile. Kairos keeps its own ring. */
+interface Props {
+  size?: number;
+}
+
+const { size = 30 } = Astro.props;
+---
+
+<svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" style="flex: none">
+  <rect width="24" height="24" rx="7" fill="var(--accent)" />
+  <path d="M8.5 5.5h4.25a3.25 3.25 0 0 1 0 6.5H8.5zM8.5 12h5a3.25 3.25 0 0 1 0 6.5h-5z" stroke="var(--on-accent)" stroke-width="2.3" stroke-linejoin="round" />
+</svg>

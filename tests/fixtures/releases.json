@@ -1,0 +1,106 @@
+[
+  {
+    "tag_name": "captions-runtime-2.0.0",
+    "draft": false,
+    "prerelease": false,
+    "published_at": "2026-10-21T00:00:00Z",
+    "assets": [
+      {
+        "name": "kairos-captions-runtime-2.0.0.zip",
+        "size": 1,
+        "download_count": 999,
+        "browser_download_url": "https://example.invalid/x.zip"
+      }
+    ]
+  },
+  {
+    "tag_name": "v1.0.1",
+    "draft": false,
+    "prerelease": false,
+    "published_at": "2026-10-18T17:31:06Z",
+    "assets": [
+      {
+        "name": "Kairos-1.0.1-delta.nupkg",
+        "size": 334058,
+        "download_count": 127,
+        "browser_download_url": "https://github.com/BasilForge/Kairos/releases/download/v1.0.1/Kairos-1.0.1-delta.nupkg"
+      },
+      {
+        "name": "Kairos-1.0.1-full.nupkg",
+        "size": 107939510,
+        "download_count": 90,
+        "browser_download_url": "https://github.com/BasilForge/Kairos/releases/download/v1.0.1/Kairos-1.0.1-full.nupkg"
+      },
+      {
+        "name": "Kairos-1.0.1-source.zip",
+        "size": 7879923,
+        "download_count": 67,
+        "browser_download_url": "https://github.com/BasilForge/Kairos/releases/download/v1.0.1/Kairos-1.0.1-source.zip"
+      },
+      {
+        "name": "Kairos-Setup.exe",
+        "size": 117798298,
+        "download_count": 759,
+        "browser_download_url": "https://github.com/BasilForge/Kairos/releases/download/v1.0.1/Kairos-Setup.exe"
+      },
+      {
+        "name": "releases.win.json",
+        "size": 1341,
+        "download_count": 2030,
+        "browser_download_url": "https://github.com/BasilForge/Kairos/releases/download/v1.0.1/releases.win.json"
+      }
+    ]
+  },
+  {
+    "tag_name": "v1.0.0",
+    "draft": false,
+    "prerelease": false,
+    "published_at": "2026-10-18T16:00:18Z",
+    "assets": [
+      {
+        "name": "Kairos-1.0.0-full.nupkg",
+        "size": 107940206,
+        "download_count": 0,
+        "browser_download_url": "https://github.com/BasilForge/Kairos/releases/download/v1.0.0/Kairos-1.0.0-full.nupkg"
+      },
+      {
+        "name": "Kairos-1.0.0-source.zip",
+        "size": 7879866,
+        "download_count": 0,
+        "browser_download_url": "https://github.com/BasilForge/Kairos/releases/download/v1.0.0/Kairos-1.0.0-source.zip"
+      },
+      {
+        "name": "Kairos-Setup.exe",
+        "size": 117798997,
+        "download_count": 10,
+        "browser_download_url": "https://github.com/BasilForge/Kairos/releases/download/v1.0.0/Kairos-Setup.exe"
+      },
+      {
+        "name": "releases.win.json",
+        "size": 1119,
+        "download_count": 2020,
+        "browser_download_url": "https://github.com/BasilForge/Kairos/releases/download/v1.0.0/releases.win.json"
+      }
+    ]
+  },
+  {
+    "tag_name": "captions-runtime-1.9.5",
+    "draft": false,
+    "prerelease": false,
+    "published_at": "2026-10-18T15:59:34Z",
+    "assets": [
+      {
+        "name": "kairos-captions-runtime-1.9.5.zip",
+        "size": 14848938,
+        "download_count": 29,
+        "browser_download_url": "https://github.com/BasilForge/Kairos/releases/download/captions-runtime-1.9.5/kairos-captions-runtime-1.9.5.zip"
+      },
+      {
+        "name": "releases.win.json",
+        "size": 13,
+        "download_count": 2016,
+        "browser_download_url": "https://github.com/BasilForge/Kairos/releases/download/captions-runtime-1.9.5/releases.win.json"
+      }
+    ]
+  }
+]

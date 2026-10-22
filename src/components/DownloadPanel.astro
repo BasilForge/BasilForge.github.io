@@ -1,0 +1,88 @@
+---
+import Icon from './Icon.astro';
+import { t, type Lang } from '../i18n/ui';
+import { formatStats, type StatKey } from '../lib/format';
+import type { KairosStats } from '../lib/github';
+import type { Project } from '../projects';
+
+interface Props {
+  project: Project;
+  stats: KairosStats;
+  lang: Lang;
+}
+
+const { project, stats, lang } = Astro.props;
+const s = t(lang);
+const values = formatStats(stats, lang);
+const labels: Record<StatKey, string> = {
+  version: s['page.version'],
+  date: s['page.released'],
+  size: s['page.size'],
+  downloads: s['page.downloads'],
+  stars: s['page.stars'],
+};
+const facts = (Object.keys(labels) as StatKey[]).map((key) => ({ key, label: labels[key], value: values[key] }));
+---
+
+<div class="download">
+  <div class="actions">
+    <a class="btn btn-primary btn-lg" href={stats.setupUrl} data-setup-link>
+      <Icon name="download" />{s.download} {project.name}
+    </a>
+    <a class="btn btn-ghost btn-lg" href={project.links.github}><Icon name="github" />{s['page.onGithub']}</a>
+  </div>
+  <p class="free muted">{s['page.free']}</p>
+  <dl class="facts">
+    {
+      facts.map((f) => (
+        <div>
+          <dt>{f.label}</dt>
+          <dd>
+            <span dir="auto" data-stat={f.key}>
+              {f.value}
+            </span>
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</div>
+
+<style>
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+
+  .free {
+    margin-top: 14px;
+    font-size: 15px;
+  }
+
+  .facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 26px 0 0;
+  }
+
+  .facts div {
+    padding: 10px 16px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
+  }
+
+  dt {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 700;
+    font-size: 17px;
+  }
+</style>

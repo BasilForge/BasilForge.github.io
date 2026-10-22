@@ -1,0 +1,146 @@
+---
+import Mark from './Mark.astro';
+import Icon from './Icon.astro';
+import { localePath, t, type Lang } from '../i18n/ui';
+import { DISCORD_URL, GITHUB_PROFILE_URL } from '../lib/links';
+
+interface Props {
+  lang: Lang;
+  /** This page in the other language. */
+  altHref: string;
+}
+
+const { lang, altHref } = Astro.props;
+const s = t(lang);
+---
+
+<header class="site-header" data-header>
+  <div class="container bar">
+    <a class="brand" href={localePath(lang, '/')} aria-label={s['nav.home']}>
+      <Mark size={30} />
+      <span>BasilForge</span>
+    </a>
+    <nav class="nav" aria-label={s['nav.label']}>
+      <a class="nav-text" href={`${localePath(lang, '/')}#work`}>{s['nav.work']}</a>
+      <a class="nav-icon" href={GITHUB_PROFILE_URL} aria-label={s['nav.github']} title="GitHub"><Icon name="github" /></a>
+      <a class="nav-icon" href={DISCORD_URL} aria-label={s['nav.discord']} title="Discord"><Icon name="discord" /></a>
+      <a class="lang" href={altHref} hreflang={lang === 'ar' ? 'en' : 'ar'} lang={lang === 'ar' ? 'en' : 'ar'}>{s['nav.lang']}</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid transparent;
+    transition: background-color 200ms ease, border-color 200ms ease;
+  }
+
+  .site-header[data-scrolled] {
+    background: color-mix(in srgb, var(--surface-2) 92%, transparent);
+    border-bottom-color: var(--border);
+    backdrop-filter: saturate(1.2) blur(10px);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 68px;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+    font-weight: 700;
+    font-size: 18px;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    font-family: var(--font-latin);
+  }
+
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .nav a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .nav-text {
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+
+  .nav-icon {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+  }
+
+  .nav-icon :global(svg) {
+    width: 20px;
+    height: 20px;
+  }
+
+  .nav-text:hover,
+  .nav-icon:hover {
+    background: var(--surface);
+  }
+
+  .lang {
+    margin-inline-start: 6px;
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .lang:hover {
+    background: var(--surface);
+  }
+
+  .lang:lang(ar) {
+    font-family: var(--font-arabic);
+  }
+
+  .lang:lang(en) {
+    font-family: var(--font-latin);
+  }
+
+  @media (max-width: 420px) {
+    .nav-text {
+      display: none;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .brand {
+      gap: 8px;
+      font-size: 16px;
+    }
+
+    .nav-icon {
+      width: 36px;
+      height: 36px;
+    }
+
+    .lang {
+      margin-inline-start: 2px;
+      padding: 6px 10px;
+    }
+  }
+</style>

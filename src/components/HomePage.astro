@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import ProjectCard from './ProjectCard.astro';
-import Icon from './Icon.astro';
 import LiveStats from './LiveStats.astro';
 import { localePath, t, type Lang } from '../i18n/ui';
 import { projects } from '../projects';
@@ -19,19 +18,11 @@ const stats = await kairosStatsForBuild();
 <Base lang={lang} title="BasilForge" description={s['home.description']} path={localePath(lang, '/')} ogImage={projects[0].ogImage}>
   <section class="container hero">
     <p class="eyebrow" data-reveal>BasilForge</p>
-    <h1 data-reveal>{s['home.title']}</h1>
-    <p class="lead" data-reveal>{s['home.lead']}</p>
-    <p data-reveal><a class="btn btn-ghost" href="#work">{s['home.seeWork']}<Icon name="arrow" class="down" /></a></p>
+    <h1 id="work-title" data-reveal>{s['home.title']}</h1>
   </section>
 
   <section id="work" class="container works" aria-labelledby="work-title">
-    <h2 id="work-title" class="sr-only">{s['home.workHeading']}</h2>
     {projects.map((project) => <ProjectCard project={project} lang={lang} stats={stats} />)}
-  </section>
-
-  <section class="container section about" data-reveal>
-    <h2>{s['home.aboutHeading']}</h2>
-    <p>{s['home.about']}</p>
   </section>
 
   <LiveStats />
@@ -39,7 +30,7 @@ const stats = await kairosStatsForBuild();
 
 <style>
   .hero {
-    padding-block: clamp(56px, 11vw, 140px) clamp(40px, 6vw, 72px);
+    padding-block: clamp(48px, 8vw, 104px) clamp(28px, 4vw, 48px);
     display: grid;
     gap: 18px;
     justify-items: start;
@@ -58,42 +49,10 @@ const stats = await kairosStatsForBuild();
     letter-spacing: 0;
   }
 
-  .lead {
-    max-width: 40ch;
-    font-size: clamp(19px, 2.2vw, 24px);
-    color: var(--muted);
-  }
-
-  .hero :global(.down) {
-    transform: rotate(90deg);
-  }
-
   .works {
     display: grid;
     gap: 24px;
+    padding-bottom: clamp(56px, 9vw, 112px);
     scroll-margin-top: 84px;
-  }
-
-  .about {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    gap: 16px 48px;
-    align-items: baseline;
-  }
-
-  .about h2 {
-    font-size: clamp(26px, 3vw, 34px);
-  }
-
-  .about p {
-    max-width: 52ch;
-    font-size: clamp(18px, 2vw, 21px);
-    color: var(--muted);
-  }
-
-  @media (max-width: 760px) {
-    .about {
-      grid-template-columns: minmax(0, 1fr);
-    }
   }
 </style>

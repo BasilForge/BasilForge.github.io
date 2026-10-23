@@ -26,6 +26,13 @@ const audio = new Audio('/media/theme/music.mp3');
 audio.loop = true;
 audio.preload = 'none'; // nothing downloads until the music is wanted
 audio.volume = 0;
+/** iPhones ignore audio.volume (it reads back 1: the level stays with the phone's buttons), so there the level goes
+ *  through a Web Audio gain instead, which they obey. */
+const volumeIsFixed = audio.volume !== 0;
+let context: AudioContext | null = null;
+let gain: GainNode | null = null;
+let level = 0; // what the visitor hears, from 0 up to VOLUME
+let fading = 0;
 let on = wantsMusic();
 let button: HTMLButtonElement | null = null;
 
@@ -35,23 +42,44 @@ const show = () => {
   button.dataset.playing = String(on && !audio.paused);
 };
 
+/** Made on the first play, which follows a tap: browsers start Web Audio only after one. */
+const routeThroughGain = () => {
+  if (!volumeIsFixed || context || typeof AudioContext === 'undefined') return;
+  try {
+    context = new AudioContext();
+    gain = context.createGain();
+    gain.gain.value = level;
+    context.createMediaElementSource(audio).connect(gain).connect(context.destination);
+  } catch {
+    gain = null; // no Web Audio: the music plays at the phone's own level, and muting still stops it
+  }
+};
+
 const fadeTo = (target: number) => {
+  cancelAnimationFrame(fading);
   const step = () => {
-    const next = audio.volume + (target > audio.volume ? 0.0015 : -0.01);
-    audio.volume = Math.min(1, Math.max(0, next));
-    if ((target > audio.volume && next < target) || (target < audio.volume && next > target)) requestAnimationFrame(step);
+    level = target > level ? Math.min(target, level + 0.0015) : Math.max(target, level - 0.01);
+    if (gain) gain.gain.value = level;
+    else audio.volume = level;
+    if (level !== target) fading = requestAnimationFrame(step);
     else {
-      audio.volume = target;
       if (target === 0) audio.pause();
       show();
     }
   };
-  requestAnimationFrame(step);
+  fading = requestAnimationFrame(step);
 };
 
 const play = () => {
+  routeThroughGain();
+  context?.resume().catch(() => {});
   audio.play().then(() => { fadeTo(VOLUME); show(); }).catch(() => show());
 };
+
+// iPhones suspend Web Audio while the page is in the background
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden && on) context?.resume().catch(() => {});
+});
 
 // the first gesture anywhere on the site unlocks sound
 const unlock = () => {

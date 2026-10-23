@@ -2,6 +2,7 @@
 import Icon from './Icon.astro';
 import Shot from './Shot.astro';
 import { localePath, t, type Lang } from '../i18n/ui';
+import { formatCount } from '../lib/format';
 import type { Project } from '../projects';
 import type { KairosStats } from '../lib/github';
 
@@ -20,6 +21,10 @@ const details = localePath(lang, `/${project.slug}/`);
   <div class="text">
     <a class="logo" href={details}><img src={project.logo} alt={project.name} width="250" height="70" /></a>
     <p class="tagline">{project.tagline[lang]}</p>
+    <p class="downloads">
+      <span class="num display-title" dir="ltr" data-stat="downloads">{formatCount(stats.downloads, lang)}</span>
+      <span class="label"><Icon name="github" />{s['card.downloads']}</span>
+    </p>
     <div class="actions">
       <a class="btn btn-primary" href={stats.setupUrl} data-setup-link>
         <Icon name="download" />{s.download}
@@ -54,13 +59,42 @@ const details = localePath(lang, `/${project.slug}/`);
     color: var(--muted);
   }
 
+  /* the GitHub download count, large in the title's crystal gradient */
+  .downloads {
+    display: grid;
+    gap: 2px;
+    margin-top: 22px;
+    padding-inline-start: 18px;
+    border-inline-start: 2px solid rgb(127 156 255 / 0.45);
+  }
+
+  .downloads .num {
+    justify-self: start;
+    font-size: clamp(40px, 4.6vw, 56px);
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+  }
+
+  .downloads .label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+
+  .downloads :global(svg) {
+    width: 16px;
+    height: 16px;
+    flex: none;
+  }
+
   .actions {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 26px;
   }
-
 
   .picture {
     display: block;

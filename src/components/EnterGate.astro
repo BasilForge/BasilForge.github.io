@@ -18,7 +18,7 @@ const s = t(lang);
 <div class="enter-gate" role="dialog" aria-modal="true" aria-label="BasilForge" data-gate>
   <button type="button" class="enter" data-gate-enter>
     <Mark size={84} />
-    <span class="name display-title">BasilForge</span>
+    <span class="name display-title" dir="ltr">BasilForge</span>
     <span class="hint">{s['gate.enter']}</span>
   </button>
   <button type="button" class="silent" data-gate-silent>{s['gate.silent']}</button>
@@ -68,12 +68,6 @@ const s = t(lang);
 
   .name {
     font-size: clamp(32px, 5vw, 56px);
-    direction: ltr;
-  }
-
-  :global(:lang(ar)) .name {
-    font-family: 'Cinzel', serif;
-    font-weight: 800;
   }
 
   .hint {

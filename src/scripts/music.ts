@@ -55,11 +55,21 @@ const play = () => {
 
 // the first gesture anywhere on the site unlocks sound
 const unlock = () => {
+  if (document.documentElement.classList.contains('gate')) return; // the entrance screen decides
   ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach((e) => removeEventListener(e, unlock));
   if (on && audio.paused) play();
 };
 ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach((e) => addEventListener(e, unlock, { passive: true }));
-if (on) play(); // works when the browser already allows sound for this site
+if (on && !document.documentElement.classList.contains('gate')) play(); // works when the browser already allows sound
+
+/** The entrance screen's choice: enter with the music, or enter in silence (remembered like the mute button). */
+export function setMusic(wanted: boolean): void {
+  on = wanted;
+  remember(on);
+  if (on) play();
+  else fadeTo(0);
+  show();
+}
 
 export function bindMusicButton(next: HTMLButtonElement): void {
   button = next;

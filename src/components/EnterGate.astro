@@ -1,0 +1,142 @@
+---
+/**
+ * The entrance on a visit's first page: browsers keep a site silent until the visitor's first click, so the first
+ * click is the way in, and the music starts with it. Shown once per visit (sessionStorage), and never for someone
+ * who turned the music off.
+ */
+import Mark from './Mark.astro';
+import { t, type Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const s = t(lang);
+---
+
+<div class="enter-gate" role="dialog" aria-modal="true" aria-label="BasilForge" data-gate>
+  <button type="button" class="enter" data-gate-enter>
+    <Mark size={84} />
+    <span class="name display-title">BasilForge</span>
+    <span class="hint">{s['gate.enter']}</span>
+  </button>
+  <button type="button" class="silent" data-gate-silent>{s['gate.silent']}</button>
+</div>
+
+<style>
+  .enter-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: none;
+    place-items: center;
+    align-content: center;
+    gap: 22px;
+    background: radial-gradient(ellipse at 50% 40%, rgb(18 22 51 / 0.55), rgb(8 7 15 / 0.82));
+    backdrop-filter: blur(6px);
+    transition: opacity 600ms ease;
+  }
+
+  :global(html.gate) .enter-gate {
+    display: grid;
+  }
+
+  .enter-gate.leaving {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .enter {
+    all: unset;
+    cursor: pointer;
+    display: grid;
+    justify-items: center;
+    gap: 14px;
+    padding: 24px 40px;
+    border-radius: 28px;
+  }
+
+  .enter:focus-visible {
+    outline: 3px solid var(--accent-text);
+  }
+
+  .enter :global(svg) {
+    filter: drop-shadow(0 8px 30px rgb(74 99 224 / 0.6));
+    animation: breathe 3.2s ease-in-out infinite;
+  }
+
+  .name {
+    font-size: clamp(32px, 5vw, 56px);
+    direction: ltr;
+  }
+
+  :global(:lang(ar)) .name {
+    font-family: 'Cinzel', serif;
+    font-weight: 800;
+  }
+
+  .hint {
+    color: var(--text);
+    font-size: 17px;
+    letter-spacing: 0.06em;
+    opacity: 0.85;
+    animation: glow 2.4s ease-in-out infinite;
+  }
+
+  .silent {
+    all: unset;
+    cursor: pointer;
+    color: var(--muted);
+    font-size: 14px;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    padding: 8px 12px;
+  }
+
+  .silent:hover {
+    color: var(--text);
+  }
+
+  .silent:focus-visible {
+    outline: 2px solid var(--accent-text);
+    border-radius: 8px;
+  }
+
+  @keyframes breathe {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+  }
+
+  @keyframes glow {
+    0%, 100% { opacity: 0.55; }
+    50% { opacity: 1; }
+  }
+</style>
+
+<script>
+  import { setMusic } from '../scripts/music';
+
+  document.addEventListener('astro:page-load', () => {
+    const gate = document.querySelector<HTMLElement>('[data-gate]');
+    if (!gate || !document.documentElement.classList.contains('gate')) return;
+    const enter = (withMusic: boolean) => {
+      try {
+        sessionStorage.setItem('bf-entered', '1');
+      } catch {
+        // storage blocked: the entrance may show again on a reload
+      }
+      setMusic(withMusic);
+      gate.classList.add('leaving');
+      setTimeout(() => document.documentElement.classList.remove('gate'), 600);
+    };
+    gate.querySelector('[data-gate-enter]')?.addEventListener('click', () => enter(true));
+    gate.querySelector('[data-gate-silent]')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      enter(false);
+    });
+    gate.addEventListener('click', (e) => {
+      if (e.target === gate) enter(true);
+    });
+  });
+</script>

@@ -9,6 +9,7 @@ import '@fontsource/aref-ruqaa/700.css';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import EnterGate from '../components/EnterGate.astro';
 import { ClientRouter } from 'astro:transitions';
 import { altPath, t, type Lang } from '../i18n/ui';
 
@@ -55,6 +56,11 @@ const image = new URL(ogImage, site).href;
     <ClientRouter />
     <script is:inline>
       document.documentElement.classList.add('js');
+      // The entrance screen on a visit's first page, unless the visitor already came in or turned the music off.
+      try {
+        if (!sessionStorage.getItem('bf-entered') && localStorage.getItem('bf-music') !== 'off')
+          document.documentElement.classList.add('gate');
+      } catch {}
       // If the page's script never runs, nothing may stay hidden: show every section after 2.5 s.
       window.__revealFallback = setTimeout(() => document.documentElement.classList.add('reveal-all'), 2500);
     </script>
@@ -67,6 +73,7 @@ const image = new URL(ogImage, site).href;
       <slot />
     </main>
     <Footer />
+    <EnterGate lang={lang} />
     <script>
       import { startReveal } from '../scripts/reveal';
       import { startNightSky } from '../scripts/night-sky';

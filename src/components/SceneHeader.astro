@@ -11,6 +11,9 @@ const { title } = Astro.props;
   <div class="scene-wrap" aria-hidden="true">
     <div class="scene">
     <video autoplay muted loop playsinline preload="metadata" poster="/media/theme/moon-poster.webp" data-scene>
+      <!-- AV1 where the browser has it (sharp and light), H.264 for the rest; 4K for big or dense screens -->
+      <source src="/media/theme/moon-2160-av1.mp4" type='video/mp4; codecs="av01.0.12M.10"' media="(min-width: 1700px), (min-width: 1100px) and (min-resolution: 1.5dppx)" />
+      <source src="/media/theme/moon-1440-av1.mp4" type='video/mp4; codecs="av01.0.12M.10"' media="(min-width: 900px)" />
       <source src="/media/theme/moon-1440.mp4" type="video/mp4" media="(min-width: 1200px)" />
       <source src="/media/theme/moon-1080.mp4" type="video/mp4" />
     </video>

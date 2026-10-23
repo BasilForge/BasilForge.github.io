@@ -1,5 +1,5 @@
 <script>
   import { startLiveStats } from '../scripts/live-stats';
 
-  startLiveStats(document.documentElement.lang === 'ar' ? 'ar' : 'en');
+  document.addEventListener('astro:page-load', () => startLiveStats(document.documentElement.lang === 'ar' ? 'ar' : 'en'));
 </script>

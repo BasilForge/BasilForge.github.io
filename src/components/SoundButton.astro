@@ -74,8 +74,10 @@ const label = lang === 'ar' ? 'الموسيقى' : 'Music';
 </style>
 
 <script>
-  import { startMusic } from '../scripts/music';
+  import { bindMusicButton } from '../scripts/music';
 
-  const button = document.querySelector<HTMLButtonElement>('[data-sound]');
-  if (button) startMusic(button, '/media/theme/music.mp3');
+  document.addEventListener('astro:page-load', () => {
+    const button = document.querySelector<HTMLButtonElement>('[data-sound]');
+    if (button) bindMusicButton(button);
+  });
 </script>

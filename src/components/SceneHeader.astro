@@ -88,8 +88,9 @@ const { title } = Astro.props;
 
 <script>
   // The scene is a slow, calm loop: it plays while it is on screen and rests when scrolled away.
-  const video = document.querySelector<HTMLVideoElement>('[data-scene]');
-  if (video) {
-    new IntersectionObserver(([entry]) => (entry.isIntersecting ? video.play().catch(() => {}) : video.pause())).observe(video);
-  }
+  document.addEventListener('astro:page-load', () => {
+    const video = document.querySelector<HTMLVideoElement>('[data-scene]');
+    if (video)
+      new IntersectionObserver(([entry]) => (entry.isIntersecting ? video.play().catch(() => {}) : video.pause())).observe(video);
+  });
 </script>

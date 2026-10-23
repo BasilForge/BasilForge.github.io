@@ -20,43 +20,49 @@ function remember(on: boolean): void {
   }
 }
 
-export function startMusic(button: HTMLButtonElement, src: string): void {
-  const audio = new Audio(src);
-  audio.loop = true;
-  audio.preload = 'none'; // nothing downloads until the music is wanted
-  audio.volume = 0;
-  let on = wantsMusic();
+// One player for the whole visit: the site moves between pages without reloading (Astro's ClientRouter), so the
+// music keeps going across pages. Each page only binds its own mute button.
+const audio = new Audio('/media/theme/music.mp3');
+audio.loop = true;
+audio.preload = 'none'; // nothing downloads until the music is wanted
+audio.volume = 0;
+let on = wantsMusic();
+let button: HTMLButtonElement | null = null;
 
-  const show = () => {
-    button.setAttribute('aria-pressed', String(on));
-    button.dataset.playing = String(on && !audio.paused);
+const show = () => {
+  if (!button) return;
+  button.setAttribute('aria-pressed', String(on));
+  button.dataset.playing = String(on && !audio.paused);
+};
+
+const fadeTo = (target: number) => {
+  const step = () => {
+    const next = audio.volume + (target > audio.volume ? 0.0015 : -0.01);
+    audio.volume = Math.min(1, Math.max(0, next));
+    if ((target > audio.volume && next < target) || (target < audio.volume && next > target)) requestAnimationFrame(step);
+    else {
+      audio.volume = target;
+      if (target === 0) audio.pause();
+      show();
+    }
   };
+  requestAnimationFrame(step);
+};
 
-  const fadeTo = (target: number) => {
-    const step = () => {
-      const next = audio.volume + (target > audio.volume ? 0.0015 : -0.01);
-      audio.volume = Math.min(1, Math.max(0, next));
-      if ((target > audio.volume && next < target) || (target < audio.volume && next > target)) requestAnimationFrame(step);
-      else {
-        audio.volume = target;
-        if (target === 0) audio.pause();
-        show();
-      }
-    };
-    requestAnimationFrame(step);
-  };
+const play = () => {
+  audio.play().then(() => { fadeTo(VOLUME); show(); }).catch(() => show());
+};
 
-  const play = () => {
-    audio.play().then(() => { fadeTo(VOLUME); show(); }).catch(() => show());
-  };
+// the first gesture anywhere on the site unlocks sound
+const unlock = () => {
+  ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach((e) => removeEventListener(e, unlock));
+  if (on && audio.paused) play();
+};
+['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach((e) => addEventListener(e, unlock, { passive: true }));
+if (on) play(); // works when the browser already allows sound for this site
 
-  // the first gesture anywhere on the page unlocks sound
-  const unlock = () => {
-    ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach((e) => removeEventListener(e, unlock));
-    if (on && audio.paused) play();
-  };
-  ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach((e) => addEventListener(e, unlock, { passive: true }));
-
+export function bindMusicButton(next: HTMLButtonElement): void {
+  button = next;
   button.addEventListener('click', () => {
     on = !on;
     remember(on);
@@ -64,7 +70,5 @@ export function startMusic(button: HTMLButtonElement, src: string): void {
     else fadeTo(0);
     show();
   });
-
-  if (on) play(); // works when the browser already allows sound for this site
   show();
 }

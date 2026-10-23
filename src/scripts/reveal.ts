@@ -21,11 +21,3 @@ export function startReveal(
   );
   items.forEach((el) => observer.observe(el));
 }
-
-/** Gives the sticky header its background once the page has scrolled. */
-export function watchHeader(header: HTMLElement | null, win: Window): void {
-  if (!header) return;
-  const update = () => header.toggleAttribute('data-scrolled', win.scrollY > 8);
-  update();
-  win.addEventListener('scroll', update, { passive: true });
-}

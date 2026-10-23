@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { beforeEach, describe, expect, it } from 'vitest';
-import { startReveal, watchHeader } from '../src/scripts/reveal';
+import { startReveal } from '../src/scripts/reveal';
 
 type Callback = (entries: { target: Element; isIntersecting: boolean }[], observer: FakeObserver) => void;
 let observers: FakeObserver[] = [];
@@ -49,18 +49,5 @@ describe('startReveal', () => {
   it('shows everything at once without IntersectionObserver', () => {
     startReveal(document, undefined, false);
     expect(el('b').classList.contains('is-visible')).toBe(true);
-  });
-});
-
-describe('watchHeader', () => {
-  it('marks the header once the page scrolls', () => {
-    const header = document.createElement('header');
-    const win = { scrollY: 0, addEventListener: (_: string, fn: () => void) => (scroll = fn) } as unknown as Window;
-    let scroll = () => {};
-    watchHeader(header, win);
-    expect(header.hasAttribute('data-scrolled')).toBe(false);
-    (win as { scrollY: number }).scrollY = 40;
-    scroll();
-    expect(header.hasAttribute('data-scrolled')).toBe(true);
   });
 });

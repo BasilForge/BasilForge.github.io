@@ -40,7 +40,10 @@ const image = new URL(ogImage, site).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#08070f" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- a new file name for each new mark: browsers keep tab icons in a cache of their own -->
+    <link rel="icon" href="/icon-crystal.svg" type="image/svg+xml" />
+    <link rel="icon" href="/icon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/icon-180.png" />
     <link rel="canonical" href={url} />
     <link rel="alternate" hreflang="en" href={new URL(enPath, site).href} />
     <link rel="alternate" hreflang="ar" href={new URL(arPath, site).href} />

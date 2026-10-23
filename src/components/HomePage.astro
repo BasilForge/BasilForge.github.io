@@ -19,7 +19,7 @@ const stats = await kairosStatsForBuild();
 <Base lang={lang} title="BasilForge" description={s['home.description']} path={localePath(lang, '/')} ogImage={projects[0].ogImage}>
   <SceneHeader title={s['home.title']} />
 
-  <section id="work" class="container works" aria-labelledby="work-title">
+  <section class="container works" aria-labelledby="work-title">
     {projects.map((project) => <ProjectCard project={project} lang={lang} stats={stats} />)}
   </section>
 
@@ -33,6 +33,5 @@ const stats = await kairosStatsForBuild();
     display: grid;
     gap: 24px;
     padding-bottom: clamp(56px, 9vw, 112px);
-    scroll-margin-top: 84px;
   }
 </style>

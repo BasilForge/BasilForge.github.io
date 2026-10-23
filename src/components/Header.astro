@@ -22,7 +22,6 @@ const s = t(lang);
       <span>BasilForge</span>
     </a>
     <nav class="nav" aria-label={s['nav.label']}>
-      <a class="nav-text" href={`${localePath(lang, '/')}#work`}>{s['nav.work']}</a>
       <a class="nav-icon" href={GITHUB_PROFILE_URL} aria-label={s['nav.github']} title="GitHub"><Icon name="github" /></a>
       <a class="nav-icon" href={DISCORD_URL} aria-label={s['nav.discord']} title="Discord"><Icon name="discord" /></a>
       <a class="lang" href={altHref} hreflang={lang === 'ar' ? 'en' : 'ar'} lang={lang === 'ar' ? 'en' : 'ar'}>{s['nav.lang']}</a>
@@ -78,12 +77,6 @@ const s = t(lang);
     text-decoration: none;
   }
 
-  .nav-text {
-    padding: 8px 12px;
-    border-radius: 999px;
-    font-weight: 500;
-  }
-
   .nav-icon {
     display: grid;
     place-items: center;
@@ -97,7 +90,6 @@ const s = t(lang);
     height: 20px;
   }
 
-  .nav-text:hover,
   .nav-icon:hover {
     background: var(--surface);
   }
@@ -121,12 +113,6 @@ const s = t(lang);
 
   .lang:lang(en) {
     font-family: var(--font-latin);
-  }
-
-  @media (max-width: 420px) {
-    .nav-text {
-      display: none;
-    }
   }
 
   /* small phones: the mark alone, so the music and language buttons keep their room */

@@ -1,7 +1,6 @@
 export type Lang = 'en' | 'ar';
 
 const en = {
-  'nav.work': 'Work',
   'nav.lang': 'العربية',
   'nav.github': 'BasilForge on GitHub',
   'nav.discord': 'Kairos Discord server',
@@ -39,7 +38,6 @@ const en = {
 type Ui = Record<keyof typeof en, string>;
 
 const ar: Ui = {
-  'nav.work': 'الأعمال',
   'nav.lang': 'English',
   'nav.github': 'BasilForge على جيت هاب',
   'nav.discord': 'سيرفر كايروس في ديسكورد',

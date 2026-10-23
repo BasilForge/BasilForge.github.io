@@ -138,11 +138,13 @@ a:hover {
 .btn-primary {
   background: var(--accent);
   color: var(--on-accent);
+  box-shadow: 0 0 0 1px rgb(163 184 255 / 0.25), 0 8px 28px -8px rgb(74 99 224 / 0.75);
 }
 
 .btn-primary:hover {
   background: var(--accent-hover);
   color: var(--on-accent);
+  box-shadow: 0 0 0 1px rgb(163 184 255 / 0.4), 0 10px 36px -6px rgb(90 116 242 / 0.95);
 }
 
 .btn-ghost {
@@ -260,4 +262,27 @@ main,
 .site-footer {
   position: relative;
   z-index: 1;
+}
+
+main {
+  overflow-x: clip; /* full-width glows never widen the page */
+}
+
+/* titles in the scene's own light: Cinzel / Ruqaa, white at the top fading into crystal blue */
+.display-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  background: linear-gradient(180deg, #ffffff 0%, #cfe0ff 35%, #7f9cff 75%, #4a63e0 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 22px rgb(74 99 224 / 0.4));
+}
+
+:lang(ar) .display-title {
+  font-family: 'Aref Ruqaa', serif;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.4;
 }

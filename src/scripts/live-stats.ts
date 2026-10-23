@@ -5,13 +5,20 @@ import { fetchKairosStats, type KairosStats } from '../lib/github';
 const KEY = 'kairos-stats';
 const MAX_AGE_MS = 60 * 60 * 1000;
 
-/** Writes the numbers into every [data-stat] and points every [data-setup-link] at the installer; null changes nothing. */
+/**
+ * Writes the numbers into every [data-stat] and points every [data-setup-link] at the installer; null changes nothing.
+ * A changed number goes into a fresh copy of its element: browsers (Brave, iPhone Safari) can leave gradient text
+ * (background-clip: text) unpainted when its words change in place after the page is drawn.
+ */
 export function applyStats(root: ParentNode, stats: KairosStats | null, lang: Lang): void {
   if (!stats) return;
   const text: Record<string, string> = formatStats(stats, lang);
   root.querySelectorAll<HTMLElement>('[data-stat]').forEach((el) => {
     const value = text[el.dataset.stat ?? ''];
-    if (value) el.textContent = value;
+    if (!value || value === el.textContent) return;
+    const fresh = el.cloneNode(false) as HTMLElement;
+    fresh.textContent = value;
+    el.replaceWith(fresh);
   });
   root.querySelectorAll('[data-setup-link]').forEach((a) => a.setAttribute('href', stats.setupUrl));
 }

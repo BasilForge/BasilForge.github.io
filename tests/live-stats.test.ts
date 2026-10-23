@@ -20,7 +20,7 @@ beforeEach(() => {
   root = document.createElement('div');
   root.innerHTML = `
     <span data-stat="version">v1.0.1</span><span data-stat="size">112 MB</span><span data-stat="date">Oct 18, 2026</span>
-    <span data-stat="downloads">769</span><span data-stat="stars">24</span>
+    <span class="num" dir="ltr" data-stat="downloads">769</span><span data-stat="stars">24</span>
     <a data-setup-link href="${LATEST_SETUP_URL}">Download</a>`;
 });
 
@@ -39,6 +39,22 @@ describe('applyStats', () => {
     applyStats(root, fresh, 'ar');
     expect(stat('size')).toBe('113 ميقابايت');
     expect(stat('date')).toBe('25 أكتوبر 2026');
+  });
+
+  it('puts a changed number in a new element with the same attributes, so the browser paints it afresh', () => {
+    const before = root.querySelector('[data-stat="downloads"]');
+    applyStats(root, fresh, 'en');
+    const after = root.querySelector('[data-stat="downloads"]')!;
+    expect(after).not.toBe(before);
+    expect(after.textContent).toBe('900');
+    expect(after.className).toBe('num');
+    expect(after.getAttribute('dir')).toBe('ltr');
+  });
+
+  it('keeps the element when the number has not changed', () => {
+    const before = root.querySelector('[data-stat="stars"]');
+    applyStats(root, { ...fresh, stars: 24 }, 'en');
+    expect(root.querySelector('[data-stat="stars"]')).toBe(before);
   });
 
   it('leaves the page as built when there are no numbers', () => {

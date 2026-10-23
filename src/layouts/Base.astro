@@ -56,10 +56,9 @@ const image = new URL(ogImage, site).href;
     <ClientRouter />
     <script is:inline>
       document.documentElement.classList.add('js');
-      // The entrance screen on a visit's first page, unless the visitor already came in or turned the music off.
+      // The entrance screen on every visit's first page; the visitor picks music or silence there.
       try {
-        if (!sessionStorage.getItem('bf-entered') && localStorage.getItem('bf-music') !== 'off')
-          document.documentElement.classList.add('gate');
+        if (!sessionStorage.getItem('bf-entered')) document.documentElement.classList.add('gate');
       } catch {}
       // If the page's script never runs, nothing may stay hidden: show every section after 2.5 s.
       window.__revealFallback = setTimeout(() => document.documentElement.classList.add('reveal-all'), 2500);

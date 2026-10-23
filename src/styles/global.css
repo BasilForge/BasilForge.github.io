@@ -1,14 +1,16 @@
 :root {
-  --bg: #bcb2a7;
-  --surface: #cbc3b9;
-  --surface-2: #d6cfc6;
-  --border: #a99f94;
-  --text: #221c1a;
-  --muted: #4b423d;
-  --accent: #9e2f4c;
-  --accent-hover: #87263f;
-  --on-accent: #fff4f6;
-  --accent-text: #7a2038;
+  /* night under the moon: the header scene's blacks, its crystal blue, its bonfire gold */
+  --bg: #08070f;
+  --surface: #13121f;
+  --surface-2: #1b1a2b;
+  --border: rgba(168, 180, 255, 0.14);
+  --text: #eceefe;
+  --muted: #a9aecb;
+  --accent: #4a63e0;
+  --accent-hover: #5a74f2;
+  --on-accent: #ffffff;
+  --accent-text: #a3b8ff;
+  --gold: #e9b860;
 
   --radius: 14px;
   --radius-lg: 22px;
@@ -16,7 +18,7 @@
   --max: 1120px;
   --font-latin: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-arabic: 'IBM Plex Sans Arabic', 'Inter Variable', system-ui, 'Segoe UI', sans-serif;
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 *,
@@ -32,7 +34,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg);
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, #121633 0%, transparent 70%) no-repeat, var(--bg);
   color: var(--text);
   font-family: var(--font-latin);
   font-size: 17px;
@@ -105,7 +107,7 @@ a:hover {
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--accent-text);
+  color: var(--gold);
 }
 
 :lang(ar) .eyebrow {
@@ -161,8 +163,9 @@ a:hover {
 }
 
 .card {
-  background: var(--surface);
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
   border: 1px solid var(--border);
+  backdrop-filter: blur(14px) saturate(1.2);
   border-radius: var(--radius-lg);
 }
 
@@ -241,4 +244,20 @@ html.reveal-all [data-reveal] {
     transform: none;
     transition: none;
   }
+}
+
+/* falling starlight behind everything; the page sits above it */
+.night-sky {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+main,
+.site-footer {
+  position: relative;
+  z-index: 1;
 }

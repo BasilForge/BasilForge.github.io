@@ -1,0 +1,70 @@
+/** Quiet music for the site: on unless the visitor turned it off. Browsers allow sound only after the visitor's first
+ *  tap, key or scroll, so it starts then. The choice is remembered in this browser. */
+const KEY = 'bf-music';
+/** Quiet enough to read or fall asleep to: the track is mastered loud (about -16 LUFS), this keeps it about 26 dB under. */
+const VOLUME = 0.05;
+
+function wantsMusic(): boolean {
+  try {
+    return localStorage.getItem(KEY) !== 'off';
+  } catch {
+    return true;
+  }
+}
+
+function remember(on: boolean): void {
+  try {
+    localStorage.setItem(KEY, on ? 'on' : 'off');
+  } catch {
+    // Storage blocked: the choice lasts for this page only.
+  }
+}
+
+export function startMusic(button: HTMLButtonElement, src: string): void {
+  const audio = new Audio(src);
+  audio.loop = true;
+  audio.preload = 'none'; // nothing downloads until the music is wanted
+  audio.volume = 0;
+  let on = wantsMusic();
+
+  const show = () => {
+    button.setAttribute('aria-pressed', String(on));
+    button.dataset.playing = String(on && !audio.paused);
+  };
+
+  const fadeTo = (target: number) => {
+    const step = () => {
+      const next = audio.volume + (target > audio.volume ? 0.0015 : -0.01);
+      audio.volume = Math.min(1, Math.max(0, next));
+      if ((target > audio.volume && next < target) || (target < audio.volume && next > target)) requestAnimationFrame(step);
+      else {
+        audio.volume = target;
+        if (target === 0) audio.pause();
+        show();
+      }
+    };
+    requestAnimationFrame(step);
+  };
+
+  const play = () => {
+    audio.play().then(() => { fadeTo(VOLUME); show(); }).catch(() => show());
+  };
+
+  // the first gesture anywhere on the page unlocks sound
+  const unlock = () => {
+    ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach((e) => removeEventListener(e, unlock));
+    if (on && audio.paused) play();
+  };
+  ['pointerdown', 'keydown', 'touchstart', 'wheel'].forEach((e) => addEventListener(e, unlock, { passive: true }));
+
+  button.addEventListener('click', () => {
+    on = !on;
+    remember(on);
+    if (on) play();
+    else fadeTo(0);
+    show();
+  });
+
+  if (on) play(); // works when the browser already allows sound for this site
+  show();
+}

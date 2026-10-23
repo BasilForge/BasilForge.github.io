@@ -35,7 +35,7 @@ const image = new URL(ogImage, site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#bcb2a7" />
+    <meta name="theme-color" content="#08070f" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href={url} />
     <link rel="alternate" hreflang="en" href={new URL(enPath, site).href} />
@@ -56,18 +56,22 @@ const image = new URL(ogImage, site).href;
     </script>
   </head>
   <body>
+    <canvas class="night-sky" aria-hidden="true" data-night-sky></canvas>
     <a class="skip" href="#main">{t(lang)['nav.skip']}</a>
     <Header lang={lang} altHref={other} />
     <main id="main">
       <slot />
     </main>
-    <Footer lang={lang} />
+    <Footer />
     <script>
       import { startReveal, watchHeader } from '../scripts/reveal';
+      import { startNightSky } from '../scripts/night-sky';
 
       clearTimeout((window as { __revealFallback?: number }).__revealFallback);
       startReveal(document, window.IntersectionObserver, matchMedia('(prefers-reduced-motion: reduce)').matches);
       watchHeader(document.querySelector<HTMLElement>('[data-header]'), window);
+      const sky = document.querySelector<HTMLCanvasElement>('[data-night-sky]');
+      if (sky) startNightSky(sky);
     </script>
   </body>
 </html>

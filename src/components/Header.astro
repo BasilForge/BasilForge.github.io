@@ -1,6 +1,7 @@
 ---
 import Mark from './Mark.astro';
 import Icon from './Icon.astro';
+import SoundButton from './SoundButton.astro';
 import { localePath, t, type Lang } from '../i18n/ui';
 import { DISCORD_URL, GITHUB_PROFILE_URL } from '../lib/links';
 
@@ -25,6 +26,7 @@ const s = t(lang);
       <a class="nav-icon" href={GITHUB_PROFILE_URL} aria-label={s['nav.github']} title="GitHub"><Icon name="github" /></a>
       <a class="nav-icon" href={DISCORD_URL} aria-label={s['nav.discord']} title="Discord"><Icon name="discord" /></a>
       <a class="lang" href={altHref} hreflang={lang === 'ar' ? 'en' : 'ar'} lang={lang === 'ar' ? 'en' : 'ar'}>{s['nav.lang']}</a>
+      <SoundButton lang={lang} />
     </nav>
   </div>
 </header>
@@ -123,6 +125,13 @@ const s = t(lang);
 
   @media (max-width: 420px) {
     .nav-text {
+      display: none;
+    }
+  }
+
+  /* small phones: the mark alone, so the music and language buttons keep their room */
+  @media (max-width: 420px) {
+    .brand span {
       display: none;
     }
   }

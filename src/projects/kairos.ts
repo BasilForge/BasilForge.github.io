@@ -15,7 +15,7 @@ export const kairos: Project = {
     en: 'Kairos keeps the last minutes of your game ready. Press your key or say your phrase and the clip is saved, then cut it, caption it and share it without leaving the app.',
     ar: 'يحتفظ كايروس بآخر دقائق لعبك جاهزة. اضغط زرّك أو قل جملتك فيُحفظ المقطع، ثم قصّه وأضف له ترجمة وشاركه دون أن تغادر البرنامج.',
   },
-  logo: '/media/kairos/logo.png',
+  logo: '/media/kairos/logo-dark.png',
   ogImage: '/media/kairos/og.png',
   hero: {
     image: 'status',
